@@ -17,14 +17,22 @@ The entire pipeline was built from scratch: data was gathered from multiple real
 Data collection was the most time-intensive part of this project — gathering, cross-referencing, and aligning data from different platforms with different formats, update frequencies, and naming conventions took **significant time and effort** before a single line of analysis could be written.
 
 Data was sourced from the following publicly available platforms:
---> Central Pollution Control Board (CPCB)| Official Indian government air quality monitoring data |
---> World Air Quality Index (AQICN)| Global real-time AQI readings across monitoring stations |
---> OpenAQ| Open-source aggregated air quality data platform |
---> IQAir | Commercial-grade air quality and pollution monitoring |
---> India Meteorological Department (IMD) | Official weather data — temperature, humidity, wind, rainfall |
+--> Central Pollution Control Board (CPCB)| Official Indian government air quality monitoring data 
+
+--> World Air Quality Index (AQICN)| Global real-time AQI readings across monitoring stations 
+
+--> OpenAQ| Open-source aggregated air quality data platform 
+
+--> IQAir | Commercial-grade air quality and pollution monitoring 
+
+--> India Meteorological Department (IMD) | Official weather data — temperature, humidity, wind, rainfall 
+
 --> Delhi Pollution Control Committee (DPCC)| Delhi-specific station-level pollution records
---> OpenWeatherMap | Weather API data for supplementary meteorological features |
---> Kaggle — Delhi Air Quality Datasets | Publicly available curated and preprocessed datasets |
+
+--> OpenWeatherMap | Weather API data for supplementary meteorological features 
+
+--> Kaggle — Delhi Air Quality Datasets | Publicly available curated and preprocessed datasets 
+
 
 All collected data was then cleaned, integrated, standardized into a single dataset before any analysis began.
 
@@ -82,9 +90,13 @@ Four regression models were trained and evaluated — first on scaled features, 
 Each model was evaluated on MAE, MSE, RMSE, and R² score:
 
 --> Linear Regression : No regularization — prone to overfitting with many features 
+
 --> Ridge Regression : L2 penalty shrinks all coefficients but keeps all features 
+
 --> ElasticNet : Mix of L1 + L2 — middle ground between Lasso and Ridge 
+
 --> Lasso Regression : L1 penalty — zeros out irrelevant features entirely 
+
 
 ### Why Lasso Performed Best — And What the Data Proved
 
@@ -93,11 +105,16 @@ After training, the features that Lasso completely eliminated were inspected:
 This revealed something important — out of 61 features, Lasso's L1 penalty drove several coefficients to exactly zero, effectively performing automatic feature selection. This is the core reason it outperformed the others:
 
 --> Linear Regression kept all 61 features, including noisy and redundant ones, leading to some overfitting
+
 --> Ridge kept all 61 features too — it just made their weights smaller, but could not eliminate them
+
 --> ElasticNet partially zeroed some features, but its blend of L1 and L2 was less aggressive than pure Lasso for this dataset
+
 --> Lasso with its pure L1 penalty found the true signal by discarding features that don't genuinely predict AQI — producing the cleanest and most generalizable model
 
+
 LassoCV with 5-fold cross-validation also automatically selected the optimal regularization strength (alpha), meaning the model was not manually tuned but selected its own best configuration from the data.
+
 
 --->                         Final Lasso accuracy: ~92% (R² ≈ 0.92)
 
@@ -111,29 +128,43 @@ The trained Lasso model was saved as lasso.pkl.
 The Flask backend was built with several deliberate decisions:
 
 --> Model loaded at startup, not per request  : both scalar.pkl and lasso.pkl are loaded once when the server starts. This avoids re-reading files from disk on every prediction, keeping response times fast
+
 --> 61 features, 16 user inputs   : the model expects 61 features but asking a user to fill 61 fields is impractical. Only the 16 most meaningful and interpretable features are exposed in the UI. The remaining features are either derived from those 16 using established meteorological approximations (dew point, atmospheric pressure, visibility) or set to neutral background values
+
 -->Server-side one-hot encoding :  the Season and Station Type dropdown values are encoded in Python to exactly match the drop_first=True encoding used during training
+
 --> Input validation  : all 16 user inputs are validated against their real-world expected ranges before the prediction pipeline is triggered. Out-of-range or missing values return a clear, readable error message
+
 --> AQI clamping  :  the raw model output is clamped between 0 and 500, which are the real-world boundaries of the AQI scale, preventing physically impossible results
+
 --> AWS Elastic Beanstalk compatibility  :  the app object is named application (not just app) because AWS EB's Python platform specifically looks for a variable with that name. Gunicorn (the production web server) is declared in requirements.txt so EB installs and invokes it automatically — app.run() is never called in production
+
 
 ### Templates/index.html — Frontend
 
 The frontend is a single dark-themed responsive page built with vanilla HTML and CSS:
 
 --> Input fields are grouped into four logical sections — Location & Conditions, Weather, Urban Factors, and Pollutant Concentrations — so users immediately understand what category each input belongs to
+
 --> Sensible default values are pre-filled for urban and weather fields (traffic density, population density, green cover, etc.) to improve the user experience — users only need to update the fields they actually have readings for
+
 --> The prediction result is displayed with a color-coded AQI number, category label (Good / Moderate / Unhealthy / Hazardous), and a tailored health advisory.
+
 --> Fully responsive across desktop and mobile
 
 
 ##  Dependencies
 
 --> flask : Web framework — routing, templating, request handling 
+
 --> numpy : Numerical computation 
+
 --> pandas : Feature vector construction and data manipulation 
+
 --> scikit-learn : StandardScaler, LassoCV, train-test split, metrics 
+
 --> gunicorn : Production WSGI server — used automatically by AWS Elastic Beanstalk 
+
 
 Install all at once:
 
