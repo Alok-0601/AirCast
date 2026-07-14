@@ -4,7 +4,7 @@ A machine learning web application that predicts the **Air Quality Index (AQI)**
 
 ## Live Demo
 
-🔗 Deployed App:(Coming soon — AWS deployment link will be added here)
+http://65.0.204.194:5000
 
 ## Project Overview
 
