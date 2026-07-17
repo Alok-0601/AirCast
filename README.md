@@ -17,19 +17,19 @@ The entire pipeline was built from scratch: data was gathered from multiple real
 Data collection was the most time-intensive part of this project — gathering, cross-referencing, and aligning data from different platforms with different formats, update frequencies, and naming conventions took **significant time and effort** before a single line of analysis could be written.
 
 Data was sourced from the following publicly available platforms:
---> Central Pollution Control Board (CPCB)| Official Indian government air quality monitoring data 
+--> Central Pollution Control Board (CPCB):  Official Indian government air quality monitoring data 
 
---> World Air Quality Index (AQICN)| Global real-time AQI readings across monitoring stations 
+--> World Air Quality Index (AQICN): Global real-time AQI readings across monitoring stations 
 
---> OpenAQ| Open-source aggregated air quality data platform 
+--> OpenAQ:  Open-source aggregated air quality data platform 
 
---> IQAir | Commercial-grade air quality and pollution monitoring 
+--> IQAir : Commercial-grade air quality and pollution monitoring 
 
---> India Meteorological Department (IMD) | Official weather data — temperature, humidity, wind, rainfall 
+--> India Meteorological Department (IMD) : Official weather data — temperature, humidity, wind, rainfall 
 
---> Delhi Pollution Control Committee (DPCC)| Delhi-specific station-level pollution records
+--> Delhi Pollution Control Committee (DPCC): Delhi-specific station-level pollution records
 
---> OpenWeatherMap | Weather API data for supplementary meteorological features 
+--> OpenWeatherMap : Weather API data for supplementary meteorological features 
 
 --> Kaggle — Delhi Air Quality Datasets | Publicly available curated and preprocessed datasets 
 
