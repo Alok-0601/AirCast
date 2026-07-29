@@ -1,6 +1,6 @@
 # Urban AQI Predictor
 
-A machine learning web application that predicts the **Air Quality Index (AQI)** in real time for urban environments, built entirely end-to-end from raw data collection across multiple public sources, through rigorous cleaning and analysis, to a production-ready Flask web application powered by a **Lasso Regression model achieving ~92% accuracy (R² ≈ 0.92).**
+A machine learning web application that predicts the **Air Quality Index (AQI)** in real time for urban environments, built entirely end-to-end  from raw data collection across multiple public sources, through rigorous cleaning and analysis, to a production-ready Flask web application powered by a **Lasso Regression model achieving ~92% accuracy (R² ≈ 0.92).**
 
 ## Live Demo
 
