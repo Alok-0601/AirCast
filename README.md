@@ -23,7 +23,7 @@ Data was sourced from the following publicly available platforms:
 
 --> OpenAQ:  Open-source aggregated air quality data platform 
 
---> IQAir : Commercial-grade air quality and pollution monitoring 
+--> IQAir : Commercial-grade air quality and pollution monitoring. 
 
 --> India Meteorological Department (IMD) : Official weather data — temperature, humidity, wind, rainfall 
 
